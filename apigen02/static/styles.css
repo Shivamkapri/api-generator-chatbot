@@ -1,0 +1,104 @@
+body {
+    background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    padding: 32px 24px;
+}
+h1 {
+    text-align: center;
+    color: #ff7e5f;
+    margin-bottom: 24px;
+}
+.upload-area {
+    border: 2px dashed #ff7e5f;
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    background: #fff7f0;
+    margin-bottom: 20px;
+    transition: background 0.2s, border-color 0.2s;
+}
+.upload-area.dragover {
+    background: #ffe0d3;
+    border-color: #fd5e53;
+}
+#browseBtn {
+    margin-top: 10px;
+    background: #ff7e5f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+}
+#browseBtn:hover {
+    background: #fd5e53;
+}
+.language-select {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#language, #otherLanguage {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+.generate-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #ff7e5f 0%, #feb47b 100%);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: background 0.2s;
+}
+.generate-btn:hover {
+    background: linear-gradient(90deg, #fd5e53 0%, #fda085 100%);
+}
+.output-section {
+    background: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+#codeOutput {
+    background: #222;
+    color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    min-height: 120px;
+    font-size: 1rem;
+    overflow-x: auto;
+}
+#downloadBtn {
+    margin-top: 12px;
+    background: #ff7e5f;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+    display: block;
+}
+#downloadBtn:hover {
+    background: #fd5e53;
+}

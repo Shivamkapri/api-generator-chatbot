@@ -1,0 +1,483 @@
+{
+	"info": {
+		"_postman_id": "259f8496-a3e7-4ab9-a08b-3efa9e966236",
+		"name": "acme",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26583262"
+	},
+	"item": [
+		{
+			"name": "ouath token",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "afeff399-beab-4199-a256-1e808429402d",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				 
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"clientId\": \"bbdf870e-5e37-4f35-b11f-5d4b934fcc13\",\n  \"clientSecret\": \"5cb262ee-a1db-47b0-95a6-bdf50043c17f\",\n  \"grantType\": \"urn:ietf:params:oauth:grant-type:client-credentials\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://qlwtofmb58.execute-api.ap-south-1.amazonaws.com/prod/saamsIdm/oauth/token",
+					"protocol": "https",
+					"host": [
+						"qlwtofmb58",
+						"execute-api",
+						"ap-south-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"prod",
+						"saamsIdm",
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get sites",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"pagination\": {\n    \"page\": 1,\n    \"perPage\": 40\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/organisationManagement/v2/integrator/organisations/5009/sites",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"organisationManagement",
+						"v2",
+						"integrator",
+						"organisations",
+						"5009",
+						"sites"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get access points",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"pagination\": {\n    \"page\": 1,\n    \"perPage\": 40\n  },\n  \"filters\": {\n    \"search\": null\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/organisationManagement/v1/integrator/organisations/5009/sites/9261/accessPoints/list",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"organisationManagement",
+						"v1",
+						"integrator",
+						"organisations",
+						"5009",
+						"sites",
+						"9261",
+						"accessPoints",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get roles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/formData?roles=roles",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5009",
+						"formData"
+					],
+					"query": [
+						{
+							"key": "roles",
+							"value": "roles"
+						},
+						{
+							"key": "Authorization",
+							"value": null,
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create a user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"jane doe\",\n    \"phone\": \"+916127938860\",\n    \"roles\": [56],\n    \"adminOfSites\": [],\n    \"devicelock\": true,\n    \"accessData\": {\n        \"mobile\": true,\n        \"card\": true,\n        \"fingerprint\": true,\n        \"remoteAccess\": false,\n        \"clickToAccessRange\": 1,\n        \"accessExpiresAt\": null,\n        \"tapToAccess\": true,\n        \"accessPoints\":[],\n        \"gps\": true,\n        \"deviceLock\": true\n    },\n    \"homeSiteId\": 9261,\n    \"terms\": [],\n    \"employeeCode\": null,\n    \"reportingTo\": null,\n    \"probationPeriod\": null,\n    \"joiningDate\": null,\n    \"credentialId\": null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users/create",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5009",
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fetch all organisation users",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"pagination\": {\n    \"page\": 1,\n    \"perPage\": 25\n  },\n  \"filters\": {\n    \"userType\": [\n      \"active\"\n    ],\n    \"terms\": [],\n    \"sites\": []\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5009",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user permissions",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"sites\":[]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/accessManagementV3/integrator/v1/organisations/5009/users/863422/permissions",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"accessManagementV3",
+						"integrator",
+						"v1",
+						"organisations",
+						"5009",
+						"users",
+						"863422",
+						"permissions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deactivate users",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"users\":[{\"id\" : 863422,\"deactivateUser\":true}]}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users/update",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5009",
+						"users",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "activate users",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"users\": [\n        {\n            \"id\": 863422,\n            \"deactivateUser\":false,\n            \"accessExpiresAt\": null,\n            \"employeeCode\": \"\",\n            \"name\": \"john\",\n            \"reportingTo\": \"\",\n            \"homeSiteId\": 9261,\n            \"adminOfSites\": [],\n            \"roles\": [\n                56\n            ],\n            \"terms\": [\n            ],\n            \"accessPoints\": [],\n            \"joiningDate\": \"2024-04-05\",\n            \"attributes\": [],\n            \"accessData\": {\n                \"gps\": false,\n                \"accessExpiresAt\": null,\n                \"accessPoints\": [],\n                \"mobile\": true\n            }\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users/update",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5009",
+						"users",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update users",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1ODA5LCJpYXQiOjE3MzYxNTA3MzEsImV4cCI6MTc0MzkyNjczMX0.PAQk2iuJLiPpjsmDbZQlw3t53FRDXz49odV_JaXoEIYQMEPeAKI1blym2wIMtq-C07aQfninB3e5MaddHR-EehuJ2Ll1yHxB33YadH4UQRr9UK86tESrmAdQ1HpmQJp60dW6coeGVXLkapiVgK6I1BMLDXSzCC9z2T43lqteskkmy6rez_AWnvuyRYj0YN2t7TyX4SAxmwBUIgwlhmf4g9ql4fKRVwADO7YWct0xpgOg1UPb9em-2PUuWP2jZ1kQu1bbAB9tMnW1MSrHGHM_eUP_wYh8xd2dgdEnQnp9XdoM9tv7ICsnOeMczP5zIY1vqWvohc5XF10ORVnGxtkcaAezkS98gHHxLQXGW2380FTQB3ls72Eg7GKSr9JtxfcDSfCx7QSZ3Cn_oN0dXYghjQxRWZR-c4RkdLUeMhT2A4sO_ZxGTo5GFpsJhJFCgY43TQwJcOuuM1xTe9qaG7vVFz38viVqm2D5URmPSxOOFTQty1s9ZlOQl-bHLMS45FmF",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"users\": [\n        {\n            \"id\": 638061,\n            \"accessExpiresAt\": null,\n            \"employeeCode\": \"\",\n            \"name\": \"Employee 10\",\n            \"reportingTo\": \"\",\n            \"homeSiteId\": 10897,\n            \"adminOfSites\": [],\n            \"roles\": [\n                19355, 19353\n            ],\n            \"terms\": [\n            ],\n            \"joiningDate\": \"2024-04-05\",\n            \"attributes\": []\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5809/users/update",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5809",
+						"users",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1ODA5LCJpYXQiOjE3MzYxNTA3MzEsImV4cCI6MTc0MzkyNjczMX0.PAQk2iuJLiPpjsmDbZQlw3t53FRDXz49odV_JaXoEIYQMEPeAKI1blym2wIMtq-C07aQfninB3e5MaddHR-EehuJ2Ll1yHxB33YadH4UQRr9UK86tESrmAdQ1HpmQJp60dW6coeGVXLkapiVgK6I1BMLDXSzCC9z2T43lqteskkmy6rez_AWnvuyRYj0YN2t7TyX4SAxmwBUIgwlhmf4g9ql4fKRVwADO7YWct0xpgOg1UPb9em-2PUuWP2jZ1kQu1bbAB9tMnW1MSrHGHM_eUP_wYh8xd2dgdEnQnp9XdoM9tv7ICsnOeMczP5zIY1vqWvohc5XF10ORVnGxtkcaAezkS98gHHxLQXGW2380FTQB3ls72Eg7GKSr9JtxfcDSfCx7QSZ3Cn_oN0dXYghjQxRWZR-c4RkdLUeMhT2A4sO_ZxGTo5GFpsJhJFCgY43TQwJcOuuM1xTe9qaG7vVFz38viVqm2D5URmPSxOOFTQty1s9ZlOQl-bHLMS45FmF",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userIds\": [\n        638061\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5809/users/delete",
+					"protocol": "https",
+					"host": [
+						"saams",
+						"api",
+						"spintly",
+						"com"
+					],
+					"path": [
+						"userManagement",
+						"integrator",
+						"v1",
+						"organisations",
+						"5809",
+						"users",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

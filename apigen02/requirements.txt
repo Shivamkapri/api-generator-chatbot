@@ -1,0 +1,4 @@
+langchain
+google-generativeai
+flask
+langchain-google-genai

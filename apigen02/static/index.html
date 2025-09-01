@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Code Generator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>AI Code Generator</h1>
+        <form id="uploadForm">
+            <div class="upload-area" id="uploadArea">
+                <p>Drag & Drop your file here or</p>
+                <input type="file" id="fileInput" hidden />
+                <button type="button" id="browseBtn">Browse Files</button>
+            </div>
+            <div class="language-select">
+                <label for="language">Select Language:</label>
+                <select id="language">
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="csharp">C#</option>
+                    <option value="cpp">C++</option>
+                    <option value="go">Go</option>
+                    <option value="ruby">Ruby</option>
+                    <option value="php">PHP</option>
+                    <option value="other">Other</option>
+                </select>
+                <input type="text" id="otherLanguage" placeholder="Enter language" style="display:none;" />
+            </div>
+            <button type="submit" class="generate-btn">Generate Code</button>
+        </form>
+        <div class="output-section">
+            <h2>Generated Code</h2>
+            <pre id="codeOutput"></pre>
+            <button id="downloadBtn" style="display:none;">Download Code</button>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
