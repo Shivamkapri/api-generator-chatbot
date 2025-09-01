@@ -28,14 +28,17 @@ using git clone ......
 3. **Install dependencies:**
    pip install -r requirements.txt
 
-4. **Add your Postman collection JSON file to the project folder.**
 
 </br>
-check the models which u can use by runing 
+4.Create gemmi api key n check the models which u can use by running 
 apigen02/checkmodels_available.py
 
 5.**Run the main script:**
    python main.py
 
 6. run static/index.html   ( http://127.0.0.1:5000/ )
+7. upload postman collection (documentation/input/acme.postman_collection.json)
+8. select language
+9. generating code will take 1-2 min depending upon the model which u are using
+
 
