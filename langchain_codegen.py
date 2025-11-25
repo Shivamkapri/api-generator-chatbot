@@ -12,6 +12,12 @@ def generate_code_gemini(api_key, request, language, prompt_template_path):
         language=language
     )
     genai.configure(api_key=api_key)
-    model = genai.GenerativeModel('gemini-2.5-flash')
-    response = model.generate_content(prompt)
+    model = genai.GenerativeModel(
+        'gemini-2.5-flash',
+        generation_config={'temperature': 0.7}
+    )
+    response = model.generate_content(
+        prompt,
+        request_options={'timeout': 60}  # 60 second timeout for API call
+    )
     return response.text
