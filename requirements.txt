@@ -2,3 +2,5 @@ langchain
 google-generativeai
 flask
 langchain-google-genai
+python-dotenv
+gunicorn
