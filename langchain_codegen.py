@@ -17,4 +17,11 @@ def generate_code_gemini(api_key, request, language, prompt_template_path):
         generation_config={'temperature': 0.7}
     )
     response = model.generate_content(prompt)
-    return response.text
+    
+    # Check if response has text
+    if hasattr(response, 'text'):
+        return response.text
+    elif hasattr(response, 'candidates') and len(response.candidates) > 0:
+        return response.candidates[0].content.parts[0].text
+    else:
+        return "# No response generated"

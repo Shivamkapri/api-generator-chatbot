@@ -37,10 +37,13 @@ def generate():
         for req in requests:
             try:
                 code = generate_code_gemini(API_KEY, req, language, PROMPT_PATH)
-                codes.append(f"# {req['name']}\n" + code)
+                if code and code.strip():
+                    codes.append(f"# {req['name']}\n{code}")
+                else:
+                    codes.append(f"# {req['name']}\n# No code generated")
             except Exception as e:
                 codes.append(f"# {req['name']}\n# Error: {str(e)}")
-        result = '\n\n'.join(codes)
+        result = '\n\n'.join(codes) if codes else "No code generated"
     except Exception as e:
         result = f"Error: {str(e)}"
     finally:
