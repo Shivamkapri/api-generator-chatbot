@@ -35,8 +35,11 @@ def generate():
         requests = parse_postman_collection(tmp_path)
         codes = []
         for req in requests:
-            code = generate_code_gemini(API_KEY, req, language, PROMPT_PATH)
-            codes.append(f"# {req['name']}\n" + code)
+            try:
+                code = generate_code_gemini(API_KEY, req, language, PROMPT_PATH)
+                codes.append(f"# {req['name']}\n" + code)
+            except Exception as e:
+                codes.append(f"# {req['name']}\n# Error: {str(e)}")
         result = '\n\n'.join(codes)
     except Exception as e:
         result = f"Error: {str(e)}"
