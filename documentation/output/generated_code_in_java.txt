@@ -1,0 +1,718 @@
+# ouath token
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ApiRequest {
+
+    public static void main(String[] args) {
+        try {
+            String apiUrl = "https://qlwtofmb58.execute-api.ap-south-1.amazonaws.com/prod/saamsIdm/oauth/token";
+            Map<String, String> body = new HashMap<>();
+            body.put("clientId", "bbdf870e-5e37-4f35-b11f-5d4b934fcc13");
+            body.put("clientSecret", "5cb262ee-a1db-47b0-95a6-bdf50043c17f");
+            body.put("grantType", "urn:ietf:params:oauth:grant-type:client-credentials");
+
+
+            ObjectMapper mapper = new ObjectMapper();
+            String requestBody = mapper.writeValueAsString(body);
+
+
+            try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
+                HttpPost httpPost = new HttpPost(apiUrl);
+                httpPost.setHeader("Content-type", "application/json");
+                httpPost.setEntity(new StringEntity(requestBody, StandardCharsets.UTF_8));
+
+                HttpResponse response = httpClient.execute(httpPost);
+                int statusCode = response.getStatusLine().getStatusCode();
+
+                if (statusCode >= 200 && statusCode < 300) {
+                    HttpEntity entity = response.getEntity();
+                    String responseBody = EntityUtils.toString(entity);
+                    System.out.println("Success! Response: " + responseBody);
+                } else {
+                    HttpEntity entity = response.getEntity();
+                    String errorResponse = entity != null ? EntityUtils.toString(entity) : "No response body";
+                    System.err.println("Error: Status code " + statusCode + ", Response: " + errorResponse);
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error during API request: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
+# get sites
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ApiRequest {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        // API Request Details
+        String apiUrl = "https://saams.api.spintly.com/organisationManagement/v2/integrator/organisations/5009/sites";
+        String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", authToken);
+        Map<String, Object> body = new HashMap<>();
+        Map<String, Integer> pagination = new HashMap<>();
+        pagination.put("page", 1);
+        pagination.put("perPage", 40);
+        body.put("pagination", pagination);
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(body);
+
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .headers("Content-Type", "application/json")
+                .headers("Authorization", authToken)
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println("Response Status Code: " + response.statusCode());
+        System.out.println("Response Body: " + response.body());
+
+
+        if (response.statusCode() == 200) {
+            //Process successful response.  Example:
+            try {
+                Map<String, Object> responseMap = objectMapper.readValue(response.body(), new TypeReference<Map<String, Object>>() {});
+                //Further processing of the responseMap
+                System.out.println("Response parsed successfully");
+            } catch (IOException e) {
+                System.err.println("Error parsing JSON response: " + e.getMessage());
+            }
+        } else {
+            System.err.println("API request failed with status code: " + response.statusCode());
+        }
+    }
+}
+```
+
+
+# get access points
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ApiRequest {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        String apiUrl = "https://saams.api.spintly.com/organisationManagement/v1/integrator/organisations/5009/sites/9261/accessPoints/list";
+        String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", authToken);
+        headers.put("Content-Type", "application/json");
+
+
+        Map<String, Object> body = new HashMap<>();
+        Map<String, Integer> pagination = new HashMap<>();
+        pagination.put("page", 1);
+        pagination.put("perPage", 40);
+        body.put("pagination", pagination);
+        Map<String, Object> filters = new HashMap<>();
+        filters.put("search", null);
+        body.put("filters", filters);
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String requestBody = objectMapper.writeValueAsString(body);
+
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody))
+                .headers(headers.entrySet().stream().map(e -> new String[]{e.getKey(), e.getValue()}).collect(java.util.stream.Collectors.toMap(x -> x[0], x -> x[1])))
+                .build();
+
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println("Response Status Code: " + response.statusCode());
+        System.out.println("Response Body: " + response.body());
+
+        //Example of handling the JSON response.  Adapt to your needs.
+        try {
+            Map<String, Object> responseMap = objectMapper.readValue(response.body(), new TypeReference<Map<String, Object>>() {});
+            System.out.println("Parsed Response: " + responseMap);
+        } catch (IOException e) {
+            System.err.println("Error parsing JSON response: " + e.getMessage());
+        }
+
+    }
+}
+```
+
+
+# get roles
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ApiRequest {
+
+    public static void main(String[] args) {
+        try {
+            String url = "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/formData?roles=roles";
+            String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+
+
+            URL obj = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", "Bearer " + authToken); //Adding Bearer prefix
+
+
+            int responseCode = con.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            System.out.println("Response Body: " + response.toString());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+
+# create a user
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ApiRequest {
+
+    public static void main(String[] args) throws IOException {
+        String url = "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users/create";
+        String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode body = mapper.createObjectNode();
+        body.put("name", "jane doe");
+        body.put("phone", "+916127938860");
+        ArrayNode roles = mapper.createArrayNode();
+        roles.add(56);
+        body.set("roles", roles);
+        ArrayNode adminOfSites = mapper.createArrayNode();
+        body.set("adminOfSites", adminOfSites);
+        body.put("devicelock", true);
+
+        ObjectNode accessData = mapper.createObjectNode();
+        accessData.put("mobile", true);
+        accessData.put("card", true);
+        accessData.put("fingerprint", true);
+        accessData.put("remoteAccess", false);
+        accessData.put("clickToAccessRange", 1);
+        accessData.put("accessExpiresAt", null);
+        accessData.put("tapToAccess", true);
+        ArrayNode accessPoints = mapper.createArrayNode();
+        accessData.set("accessPoints", accessPoints);
+        accessData.put("gps", true);
+        accessData.put("deviceLock", true);
+        body.set("accessData", accessData);
+
+        body.put("homeSiteId", 9261);
+        ArrayNode terms = mapper.createArrayNode();
+        body.set("terms", terms);
+        body.put("employeeCode", null);
+        body.put("reportingTo", null);
+        body.put("probationPeriod", null);
+        body.put("joiningDate", null);
+        body.put("credentialId", null);
+
+
+        String jsonString = mapper.writeValueAsString(body);
+
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Authorization", "Bearer " + authToken);
+        httpPost.setHeader("Content-Type", "application/json");
+        httpPost.setEntity(new StringEntity(jsonString));
+
+        HttpResponse response = httpClient.execute(httpPost);
+        HttpEntity entity = response.getEntity();
+        String responseBody = EntityUtils.toString(entity);
+        System.out.println(responseBody);
+
+    }
+}
+```
+
+
+# fetch all organisation users
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+public class ApiRequest {
+
+    public static void main(String[] args) throws IOException {
+        String url = "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users";
+        String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode requestBody = objectMapper.createObjectNode();
+        ObjectNode pagination = objectMapper.createObjectNode();
+        pagination.put("page", 1);
+        pagination.put("perPage", 25);
+        requestBody.set("pagination", pagination);
+
+        ObjectNode filters = objectMapper.createObjectNode();
+        objectMapper.createArrayNode().add("active").forEach(filters::putArray);
+        filters.putArray("terms");
+        filters.putArray("sites");
+        requestBody.set("filters", filters);
+
+
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Authorization", "Bearer " + authToken);
+        httpPost.setHeader("Content-type", "application/json");
+
+        String requestBodyJson = objectMapper.writeValueAsString(requestBody);
+        httpPost.setEntity(new StringEntity(requestBodyJson, StandardCharsets.UTF_8));
+
+        try {
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            int statusCode = response.getStatusLine().getStatusCode();
+            String responseBody = EntityUtils.toString(entity);
+
+            System.out.println("Status Code: " + statusCode);
+            System.out.println("Response Body: " + responseBody);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+}
+```
+
+
+# get user permissions
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+public class SpintlyAPIRequest {
+
+    public static void main(String[] args) {
+        try {
+            String url = "https://saams.api.spintly.com/accessManagementV3/integrator/v1/organisations/5009/users/863422/permissions";
+            String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+            JsonObject requestBody = new JsonObject();
+            requestBody.addProperty("sites", null); // Or use an empty JsonArray:  requestBody.add("sites", new JsonArray());
+
+
+            String response = sendPostRequest(url, authToken, requestBody.toString());
+            System.out.println(response);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private static String sendPostRequest(String urlString, String authToken, String requestBody) throws IOException {
+        URL url = new URL(urlString);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Authorization", authToken);
+        con.setRequestProperty("Content-Type", "application/json");
+        con.setDoOutput(true);
+
+        try (OutputStream os = con.getOutputStream()) {
+            os.write(requestBody.getBytes());
+            os.flush();
+        }
+
+
+        int responseCode = con.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
+                StringBuilder response = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line);
+                }
+                return response.toString();
+            }
+        } else {
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getErrorStream()))) {
+                StringBuilder errorResponse = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    errorResponse.append(line);
+                }
+                throw new IOException("HTTP error code: " + responseCode + "\nError Response: " + errorResponse);
+            }
+        }
+    }
+}
+```
+
+
+# deactivate users
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPatch;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+public class PatchApiRequest {
+
+    public static void main(String[] args) throws IOException {
+        String url = "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users/update";
+        String authorizationToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode jsonNode = mapper.createObjectNode();
+        jsonNode.putArray("users").addObject().put("id", 863422).put("deactivateUser", true);
+
+
+        HttpClient httpClient = HttpClients.createDefault();
+        HttpPatch httpPatch = new HttpPatch(url);
+        httpPatch.setHeader("Authorization", authorizationToken);
+        httpPatch.setHeader("Content-type", "application/json");
+        httpPatch.setEntity(new StringEntity(jsonNode.toString(), StandardCharsets.UTF_8));
+
+        try {
+            HttpResponse response = httpClient.execute(httpPatch);
+            HttpEntity entity = response.getEntity();
+            int statusCode = response.getStatusLine().getStatusCode();
+            String responseBody = EntityUtils.toString(entity);
+
+            System.out.println("Status Code: " + statusCode);
+            System.out.println("Response Body: " + responseBody);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            httpClient.getConnectionManager().shutdown();
+        }
+    }
+}
+```
+
+
+# activate users
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import okhttp3.*;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+public class UpdateUser {
+
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .build();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+
+        String url = "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5009/users/update";
+        String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1MDA5LCJpYXQiOjE3NTYxOTQ1OTgsImV4cCI6MTc2Mzk3MDU5OH0.hHkWg9AeFLrJGn2jF7Usvo_xxPDaxSgpZG3qs65qkOFa0FYa1HXlSmGuterfKmXfC9kSZy1Uaqb3RQWE_ZSc-lGhhMGOzyb92nR98UlPqZEfkSCaR3Jp1qFI7VVPRYwgbTsHhBsaXzPxanzyt7WKTME4UgrCUz76c-nkC7pJVQs49xNz6uLrE6rjejpx9MUYpXU_u5jKmFLfZw4BmYAsqua_8A0bmNSRPb9T0p3uqjzPG7sinADr4G86S5jGl786Y-pd6q-b9Euvu0mP-8iLo_mJVeiSo6GfT-gwb6LrI62TaclMqeOF3-onbB7KHIoej6clJF59_FB22AflWa0Ywv71t2kjpt9YlxBHf0jdHw7MPl9p1EvfTkFbY28U-sFc7XW7gWnotazqpbKNmPCuTWkHLvmM-xH7fgOgn_jWUQWWEEVVouTejRNYT4-av7XmaeUVst8OTV1tiq1VrBB5_V7sb88B_-oCitp0h84B3qARhbe-kDb3Q0O9omGurVJs";
+
+        RequestBody body = RequestBody.create(objectMapper.writeValueAsString(new UserUpdateRequest()), MediaType.parse("application/json"));
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", authToken)
+                .patch(body)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            System.out.println(response.body().string());
+        }
+    }
+
+
+    static class UserUpdateRequest {
+        User[] users;
+
+        public User[] getUsers() {
+            return users;
+        }
+
+        public void setUsers(User[] users) {
+            this.users = users;
+        }
+
+        public UserUpdateRequest() {
+            this.users = new User[]{new User()};
+        }
+    }
+
+    static class User {
+        int id;
+        boolean deactivateUser;
+        String accessExpiresAt;
+        String employeeCode;
+        String name;
+        String reportingTo;
+        int homeSiteId;
+        int[] adminOfSites;
+        int[] roles;
+        int[] terms;
+        int[] accessPoints;
+        String joiningDate;
+        int[] attributes;
+        AccessData accessData;
+
+        public User(){
+            this.id = 863422;
+            this.deactivateUser = false;
+            this.accessExpiresAt = null;
+            this.employeeCode = "";
+            this.name = "john";
+            this.reportingTo = "";
+            this.homeSiteId = 9261;
+            this.adminOfSites = new int[0];
+            this.roles = new int[]{56};
+            this.terms = new int[0];
+            this.accessPoints = new int[0];
+            this.joiningDate = "2024-04-05";
+            this.attributes = new int[0];
+            this.accessData = new AccessData();
+        }
+
+
+    }
+
+    static class AccessData {
+        boolean gps;
+        String accessExpiresAt;
+        int[] accessPoints;
+        boolean mobile;
+
+        public AccessData(){
+            this.gps = false;
+            this.accessExpiresAt = null;
+            this.accessPoints = new int[0];
+            this.mobile = true;
+        }
+    }
+}
+```
+
+
+# update users
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import okhttp3.*;
+
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+public class UpdateUser {
+
+    public static void main(String[] args) throws IOException {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .build();
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Prepare the request body
+        JsonNode usersNode = mapper.createObjectNode()
+                .putArray("users")
+                .addObject()
+                .put("id", 638061)
+                .putNull("accessExpiresAt")
+                .put("employeeCode", "")
+                .put("name", "Employee 10")
+                .put("reportingTo", "")
+                .put("homeSiteId", 10897)
+                .putArray("adminOfSites")
+                .putArray("roles")
+                .add(19355)
+                .add(19353)
+                .putArray("terms")
+                .put("joiningDate", "2024-04-05")
+                .putArray("attributes");
+
+
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), mapper.writeValueAsString(usersNode));
+
+        // Prepare the request
+        Request request = new Request.Builder()
+                .url("https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5809/users/update")
+                .patch(body)
+                .addHeader("Authorization", "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1ODA5LCJpYXQiOjE3MzYxNTA3MzEsImV4cCI6MTc0MzkyNjczMX0.PAQk2iuJLiPpjsmDbZQlw3t53FRDXz49odV_JaXoEIYQMEPeAKI1blym2wIMtq-C07aQfninB3e5MaddHR-EehuJ2Ll1yHxB33YadH4UQRr9UK86tESrmAdQ1HpmQJp60dW6coeGVXLkapiVgK6I1BMLDXSzCC9z2T43lqteskkmy6rez_AWnvuyRYj0YN2t7TyX4SAxmwBUIgwlhmf4g9ql4fKRVwADO7YWct0xpgOg1UPb9em-2PUuWP2jZ1kQu1bbAB9tMnW1MSrHGHM_eUP_wYh8xd2dgdEnQnp9XdoM9tv7ICsnOeMczP5zIY1vqWvohc5XF10ORVnGxtkcaAezkS98gHHxLQXGW2380FTQB3ls72Eg7GKSr9JtxfcDSfCx7QSZ3Cn_oN0dXYghjQxRWZR-c4RkdLUeMhT2A4sO_ZxGTo5GFpsJhJFCgY43TQwJcOuuM1xTe9qaG71VFz38viVqm2D5URmPSxOOFTQty1s9ZlOQl-bHLMS45FmF")
+                .build();
+
+        // Execute the request
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                throw new IOException("Unexpected code " + response);
+            }
+            System.out.println(response.body().string());
+        }
+    }
+}
+```
+
+
+# delete users
+```java
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.List;
+
+public class DeleteUsers {
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        // API Request Details
+        String apiUrl = "https://saams.api.spintly.com/userManagement/integrator/v1/organisations/5809/users/delete";
+        String authToken = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNsaWVudHM6YWxsIiwic3ViIjo1ODA5LCJpYXQiOjE3MzYxNTA3MzEsImV4cCI6MTc0MzkyNjczMX0.PAQk2iuJLiPpjsmDbZQlw3t53FRDXz49odV_JaXoEIYQMEPeAKI1blym2wIMtq-C07aQfninB3e5MaddHR-EehuJ2Ll1yHxB33YadH4UQRr9UK86tESrmAdQ1HpmQJp60dW6coeGVXLkapiVgK6I1BMLDXSzCC9z2T43lqteskkmy6rez_AWnvuyRYj0YN2t7TyX4SAxmwBUIgwlhmf4g9ql4fKRVwADO7YWct0xpgOg1UPb9em-2PUuWP2jZ1kQu1bbAB9tMnW1MSrHGHM_eUP_wYh8xd2dgdEnQnp9XdoM9tv7ICsnOeMczP5zIY1vqWvohc5XF10ORVnGxtkcaAezkS98gHHxLQXGW2380FTQB3ls72Eg7GKSr9JtxfcDSfCx7QSZ3Cn_oN0dXYghjQxRWZR-c4RkdLUeMhT2A4sO_ZxGTo5GFpsJhJFCgY43TQwJcOuuM1xTe9qaG71VFz38viVqm2D5URmPSxOOFTQty1s9ZlOQl-bHLMS45FmF";
+        List<Long> userIds = List.of(638061L);
+
+
+        // Create HttpClient
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Create ObjectMapper for JSON handling
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Create JSON body
+        ObjectNode requestBody = objectMapper.createObjectNode();
+        ArrayNode userIdArray = objectMapper.createArrayNode();
+        userIds.forEach(userIdArray::add);
+        requestBody.set("userIds", userIdArray);
+
+
+        // Create HttpRequest
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(apiUrl))
+                .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(requestBody)))
+                .header("Authorization", authToken)
+                .header("Content-Type", "application/json")
+                .build();
+
+        // Send the request
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        //Handle the response.  Check for success (2xx status code)
+        if(response.statusCode() >= 200 && response.statusCode() < 300){
+            System.out.println("Success! Response code: " + response.statusCode());
+            System.out.println("Response Body: " + response.body());
+
+        } else {
+            System.err.println("Error! Response code: " + response.statusCode());
+            System.err.println("Response Body: " + response.body());
+
+        }
+    }
+}
+```

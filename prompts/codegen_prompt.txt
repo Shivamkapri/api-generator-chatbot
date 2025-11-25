@@ -1,0 +1,9 @@
+You are an expert developer. Given the following API request details, generate code in {language} that performs the request.
+
+API Request:
+Method: {method}
+URL: {url}
+Headers: {headers}
+Body: {body}
+
+Only output the code, nothing else.

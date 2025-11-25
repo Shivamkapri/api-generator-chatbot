@@ -1,0 +1,7 @@
+myenv/
+my_project_venv/
+__pycache__/
+*.pyc
+.env
+.DS_Store
+uploads/

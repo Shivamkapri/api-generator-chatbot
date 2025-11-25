@@ -1,0 +1,68 @@
+## What Does the Project Do?
+
+- Takes a Postman collection (a JSON file describing API requests).
+- Asks the user which programming language they want code in (e.g., Python, JavaScript).
+- Uses Google Gemini (via the Generative AI API) to generate code for each API request in the selected language.
+- Prints the generated code for each request.
+
+## How Does It Work? (Step-by-Step)
+
+
+
+1. **Parse the Postman collection**  
+   The script reads the JSON file and extracts all API requests (method, URL, headers, body, etc.).
+
+2. **Prompt Gemini for code generation**  
+   For each API request, the script:
+   - Fills in a prompt template (from `prompts/codegen_prompt.txt`) with the request details and the chosen language.
+   - Sends this prompt to Gemini using your API key and the selected model.
+   - Receives code from Gemini that performs the API request in the chosen language.
+
+3. **Display the code**  
+   The script prints the generated code for each API request.
+
+
+## What Are the Main Files and What Do They Do?
+
+### 1. `main.py`
+- Entry point for your project.
+- Handles user input (file path, API key, language).
+- Calls the parser and code generation functions.
+- Prints the output.
+
+### 2. `postman_parser.py`
+- Reads and parses the Postman collection JSON file.
+- Extracts each API request’s details (name, method, URL, headers, body).
+- Returns a list of these requests for further processing.
+
+### 3. `langchain_codegen.py`
+- Handles communication with the Gemini API.
+- Reads the prompt template.
+- Fills in the template with the API request details and language.
+- Sends the prompt to Gemini and returns the generated code.
+
+### 4. `prompts/codegen_prompt.txt`
+- Contains the text template for the prompt sent to Gemini.
+- Uses placeholders like `{method}`, `{url}`, `{headers}`, `{body}`, `{language}`.
+- Ensures the LLM knows exactly what code to generate.
+
+### 5. `requirements.txt`
+- Lists all Python packages your project needs (e.g., `google-generativeai`, `flask` ).
+
+---
+
+## Example Flow
+
+1. User runs `python main.py`.
+2. User enters:
+   - Path to acme.postman_collection.json
+   - Gemini API key
+   - "Python"
+3. Script parses the collection, finds all API requests.
+4. For each request, script asks Gemini:  
+   “Generate Python code for a POST request to https://example.com with these headers and body...”
+5. Gemini returns code (e.g., using `requests` library).
+6. Script prints the code.
+
+---
+
